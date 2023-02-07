@@ -57,7 +57,7 @@ curl https://lamina1.github.io/lamina1/config.testnet.tar | tar xf -
 sed -i -e "s/^"public-ip-resolution-service" *=.*/"public-ip" = \"$ADDRESS\"/" $HOME/lamina1/configs/testnet/default.json
    
 #service
-nano /etc/systemd/system/lamina1.service
+sudo tee /etc/systemd/system/lamina1.service > /dev/null <<EOF
 [Unit]
 Description=lamina1
 After=network-online.target
@@ -72,6 +72,7 @@ LimitNOFILE=65535
 
 [Install]
 WantedBy=multi-user.target
+EOF
 
 # start service
 systemctl daemon-reload
