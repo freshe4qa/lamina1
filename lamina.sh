@@ -61,7 +61,6 @@ sudo tee /etc/systemd/system/lamina1.service > /dev/null <<EOF
 [Unit]
 Description=lamina1
 After=network-online.target
-
 [Service]
 User=root
 WorkingDirectory=/root/lamina1
@@ -69,7 +68,6 @@ ExecStart=/root/lamina1/lamina1-node  --config-file /root/lamina1/configs/testne
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=65535
-
 [Install]
 WantedBy=multi-user.target
 EOF
