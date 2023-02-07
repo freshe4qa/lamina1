@@ -53,7 +53,8 @@ cd $HOME
 wget https://lamina1.github.io/lamina1/lamina1.latest.ubuntu-latest.tar.gz
 tar -xvzf lamina1.latest.ubuntu-latest.tar.gz
 curl https://lamina1.github.io/lamina1/config.testnet.tar | tar xf -
-    ./lamina1-node  --config-file configs/testnet/default.json
+cd lamina1
+./lamina1-node  --config-file configs/testnet/default.json
     
 #service
 sudo tee /etc/systemd/system/lamina1.service > /dev/null <<EOF
