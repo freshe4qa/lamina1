@@ -45,22 +45,23 @@ fi
 source $HOME/.bash_profile
 
 # update
-sudo apt update && sudo apt upgrade -y && \
-sudo apt install curl tar wget clang pkg-config libssl-dev libleveldb-dev jq build-essential bsdmainutils git make ncdu htop screen unzip bc fail2ban htop -y
+sudo apt update && sudo apt upgrade -y
+apt install curl iptables build-essential git wget jq make gcc nano tmux htop nvme-cli pkg-config libssl-dev libleveldb-dev tar clang bsdmainutils ncdu unzip libleveldb-dev -y
 
 # download binary
-cd $HOME
 wget https://lamina1.github.io/lamina1/lamina1.latest.ubuntu-latest.tar.gz
 tar -xvzf lamina1.latest.ubuntu-latest.tar.gz
-curl https://lamina1.github.io/lamina1/config.testnet.tar | tar xf -
 cd lamina1
-./lamina1-node  --config-file configs/testnet/default.json
-    
+curl https://lamina1.github.io/lamina1/config.testnet.tar | tar xf -
+
+sed -i -e "s/^"public-ip-resolution-service" *=.*/"public-ip" = \"$ADDRESS\"/" $HOME/lamina1/configs/testnet/default.json
+   
 #service
-sudo tee /etc/systemd/system/lamina1.service > /dev/null <<EOF
+nano /etc/systemd/system/lamina1.service
 [Unit]
 Description=lamina1
 After=network-online.target
+
 [Service]
 User=root
 WorkingDirectory=/root/lamina1
@@ -68,15 +69,14 @@ ExecStart=/root/lamina1/lamina1-node  --config-file /root/lamina1/configs/testne
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=65535
+
 [Install]
 WantedBy=multi-user.target
-EOF
-
-sed -i -e "s/^"public-ip" *=.*/"public-ip" = \"$ADDRESS\"/" $HOME/lamina1/configs/testnet/default.json
 
 # start service
-sudo systemctl daemon-reload
-sudo systemctl start lamina1
+systemctl daemon-reload
+systemctl enable lamina1
+systemctl restart lamina1
 
 break
 ;;
