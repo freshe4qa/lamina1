@@ -73,10 +73,6 @@ LimitNOFILE=65535
 WantedBy=multi-user.target
 EOF
 
-echo "deb [trusted=yes arch=amd64] https://lamina1.s3.eu-west-3.amazonaws.com/ubuntu jammy main"  > /etc/apt/sources.list.d/lamina1.list
-apt-get -qqy update 
-apt-get -qqy install lamina1-node
-
 # start service
 systemctl daemon-reload
 systemctl enable lamina1
