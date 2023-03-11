@@ -51,10 +51,11 @@ apt install curl iptables build-essential git wget jq make gcc nano tmux htop nv
 # download binary
 wget https://lamina1.github.io/lamina1/lamina1.latest.ubuntu-latest.tar.gz
 tar -xvzf lamina1.latest.ubuntu-latest.tar.gz
+curl https://lamina1.github.io/lamina1/config.testnet4.tar | tar xf -
 cd lamina1
 
-sed -i -e "s/public-ip-resolution-service/public-ip/g" $HOME/lamina1/configs/testnet4/default.json
-sed -i -e "s/opendns/$ADDRESS/g" $HOME/lamina1/configs/testnet4/default.json
+sed -i -e "s/public-ip-resolution-service/public-ip/g" $HOME/configs/testnet4/default.json
+sed -i -e "s/opendns/$ADDRESS/g" $HOME/configs/testnet4/default.json
 
 #service
 sudo tee /etc/systemd/system/lamina1.service > /dev/null <<EOF
@@ -64,13 +65,17 @@ After=network-online.target
 [Service]
 User=root
 WorkingDirectory=/root/lamina1
-ExecStart=/root/lamina1/lamina1-node  --config-file /root/lamina1/configs/testnet4/default.json
+ExecStart=/root/lamina1/lamina1-node  --config-file /root/configs/testnet4/default.json
 Restart=on-failure
 RestartSec=3
 LimitNOFILE=65535
 [Install]
 WantedBy=multi-user.target
 EOF
+
+echo "deb [trusted=yes arch=amd64] https://lamina1.s3.eu-west-3.amazonaws.com/ubuntu jammy main"  > /etc/apt/sources.list.d/lamina1.list
+apt-get -qqy update 
+apt-get -qqy install lamina1-node
 
 # start service
 systemctl daemon-reload
