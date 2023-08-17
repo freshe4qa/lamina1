@@ -8,7 +8,10 @@ Official documentation:
 >- [Validator setup instructions](https://docs.lamina1.com/docs/Running-a-Betanet-Node)
 
 Explorer:
->- [https://explorer.test.taiko.xyz](https://testnet-explorer.lamina1.global)
+>- [Explorer](https://testnet-explorer.lamina1.global)
+
+Wallet and Faucet:
+>- [https://testnet.lamina1.network/#/](https://testnet.lamina1.network/#/)
 
 Ubuntu 22.04
 ### Minimum Hardware Requirements
